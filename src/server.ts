@@ -1,16 +1,20 @@
 import "reflect-metadata";
 import express, { Request, Response, NextFunction} from 'express';
 import "express-async-errors";
+import cors from 'cors';
 
 import { router } from "./routes";
 
 import "./database";
 
-const app = express();
+const app = express()
+app.use(cors({
+    origin: "mywebsite"
+}))
 
 app.use(express.json()) // Habilitates express to work with json
 
-app.use(router); // Inserts the routes into express - like a middleware
+app.use(router) // Inserts the routes into express - like a middleware
 
 app.use((err: Error, request: Request, response: Response, next: NextFunction) => {
     if(err instanceof Error){
@@ -24,4 +28,4 @@ app.use((err: Error, request: Request, response: Response, next: NextFunction) =
     })
 })
 
-app.listen(3000, () => console.log("Server is running"));
+app.listen(3000, () => console.log("Server is running"))
